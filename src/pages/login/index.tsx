@@ -3,22 +3,30 @@ import { useState } from "react";
 import { Text, View, Image, TextInput, TouchableOpacity, Alert } from "react-native";
 import { style } from "./styles"
 import Logo from "../../assets/logo.png"
+import { Input } from "../../components/input";
+import { Button } from "../../components/button";
 
 export default function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [showPassword] = useState(true);
+    const [loading,setLoading] = useState(false);
 
     async function getLogin(){
         try {
+            setLoading(true)
 
             if(!email || !password){
                 return Alert.alert('Atenção', 'Informe os campos obrigatórios!')
             }
-            if(email == 'lucasraday@gmail.com' && password == '123456') {
-                Alert.alert('Logado com sucesso')
-            }else {
-                Alert.alert('Senha ou usuários incorretos')
-            }
+            setTimeout(()=>{
+                if(email == 'lucasraday@gmail.com' && password == '123456') {
+                    Alert.alert('Logado com sucesso')
+                }else {
+                    Alert.alert('Senha ou usuários incorretos')
+                }
+                setLoading(false)
+            },2000)
         } catch (error) {
             console.log(error)
         }
@@ -31,25 +39,21 @@ export default function Login() {
                 <Text style={style.text}>Bem vindo de volta!</Text>
             </View>
             <View style={style.boxmid}>
-                <Text style={style.titleInput}>ENDEREÇO DE E-MAIL</Text>
-                <View style={style.boxInput}>
-                    <TextInput 
-                    style={style.input}
+                <Input
                     value={email}
-                    onChangeText={setEmail}/>
-                </View>
-                <Text style={style.titleInput}>SENHA</Text>
-                <View style={style.boxInput}>
-                    <TextInput 
-                    style={style.input}
+                    onChangeText={setEmail}
+                    title="ENDEREÇO DE E-MAIL"/>
+                <Input
                     value={password}
-                    onChangeText={setPassword}/>
-                </View>
+                    onChangeText={setPassword}
+                    title="SENHA"
+                    secureTextEntry={showPassword}/>
             </View>
             <View style={style.boxbottom}>
-                <TouchableOpacity style={style.button} onPress={()=>getLogin()}>
-                    <Text style={style.textButton}>Entrar</Text>
-                </TouchableOpacity>
+                <Button
+                    text="ENTRAR"
+                    loading={loading}
+                    onPress={()=>getLogin()}/>
                 <Text style={style.textBottom}>Não tem conta? <Text style={style.textBottomCreate}>Crie agora!</Text></Text>
             </View>
         </View>

@@ -1,14 +1,26 @@
-import React, { forwardRef, Fragment } from "react";
-import { View, Text, TextInput } from 'react-native';
-import { styles } from "./styles"
+import React, { forwardRef, Fragment, LegacyRef } from "react";
+import { View, Text, TextInput, TextInputProps } from 'react-native';
+import { styles } from "./styles";
+import { themas } from "../../global/themes";
+import MaterialIcons from "@react-native-vector-icons/material-icons";
 
-export const Input = forwardRef(()=>{
+
+type Props = TextInputProps & {
+    title?: string
+}
+
+export const Input = forwardRef((Props:Props, ref: LegacyRef<TextInput> | null)=>{
+
+const {title, ...rest} = Props
+
     return (
         <Fragment>
-            <Text style={styles.titleInput}>ENDEREÇO DE E-MAIL</Text>
+            <Text style={styles.titleInput}>{title}</Text>
             <View style={styles.boxInput}>
                 <TextInput 
-                style={styles.input}/>
+                style={styles.input}
+                {...rest}
+                />
             </View>
         </Fragment>
     )
